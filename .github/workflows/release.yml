@@ -1,4 +1,4 @@
-name: Releases
+name: 📢 Releases
 
 on:
   workflow_dispatch:
