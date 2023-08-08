@@ -1,4 +1,4 @@
-name: 🚀 Deploy to Production
+name: 📢 Release & Deploy
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -8,7 +8,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  Create-Release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
+      - run: npm ci --force
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   Deploy-to-Production:
+    needs: Create-Release
+    if: success()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
