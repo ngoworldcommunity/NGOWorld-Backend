@@ -20,7 +20,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "dotenv": "^15.0.0",
+    "dotenv": "^16.3.1",
     "express": "^4.17.2",
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
@@ -42,7 +42,7 @@
     "eslint": "^8.42.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.1",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.1",
     "semantic-release": "^21.0.0"
   },
   "lint-staged": {
