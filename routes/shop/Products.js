@@ -2,6 +2,7 @@
 
 const express = require("express");
 const Products = require("../../schema/shop/ProductSchema");
+const User = require("../../schema/user/UserSchema");
 const router = express.Router();
 
 //* Route 1  -  Adding Products
@@ -75,6 +76,33 @@ router.get("/:productSlug", async (req, res) => {
   } catch (error) {
     console.error("Error fetching product:", error);
     res.status(500).json({ message: "Failed to fetch product" });
+  }
+});
+
+// Route 4 - Add to Cart
+/**
+ * @description Add a product to the cart
+ * @route POST /cart/add
+ * @access Public
+ * @requires email (string)
+ * @requires productId (string)
+ * @returns Updated cart object (JSON)
+ */
+router.post("/cart/add", async (req, res) => {
+  try {
+    const { email, productId } = req.body;
+    const response = await User.updateOne(
+      { email: email },
+      { $push: { cart: { id: productId } } },
+    );
+    if (response.modifiedCount === 1) {
+      return res.send("Product added successfully");
+    } else {
+      res.status(404).json({ message: "User not Found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Failed to add product to cart" });
+    console.log(err);
   }
 });
 

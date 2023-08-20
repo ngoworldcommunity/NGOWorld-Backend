@@ -1,3 +1,5 @@
+name: 🏡 Greet users
+
 on:
   fork:
   push:

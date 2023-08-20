@@ -33,10 +33,21 @@ paths:
        - ApiTokenss: []
        - ApiKey: []
       summary: Returns all the users.
-      responses: 
-        '200':
-          description: OK
-          
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              example:
+                - _id: "630c75df01038c415989c00f"
+                  firstName: John
+                  lastName: Doe
+                  email: johndoe@gmail.com"
+                  password: akldjh^%&^%sdhjh12^%&^%kh534&^%&^%&^jh
+                  address: 123 Main Street
+                  pincode: 12345
+                  __v: 0
+
   /display/clubs:
     get:
       tags:
