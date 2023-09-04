@@ -66,7 +66,7 @@ app.get("/", (req, res) => {
 app.use("/user", require("./routes/user/User"));
 
 //* club routes
-app.use("/club", require("./routes/club/Club"));
+app.use("/clubs", require("./routes/club/Club"));
 
 //* Display routes
 app.use("/display", require("./routes/display/Display"));
