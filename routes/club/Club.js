@@ -4,7 +4,6 @@ const express = require("express");
 const Club = require("../../schema/club/ClubSchema");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const Events = require("../../schema/club/EventSchema");
 var jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
@@ -87,24 +86,6 @@ router.post("/login", async (req, res) => {
       .json({ token, isuser: false, message: "Logged you in !" });
   } catch (e) {
     res.status(500).json({ success: false });
-  }
-});
-
-//* Route 3 - Create Event
-
-router.post("/createevent", async (req, res) => {
-  try {
-    const { eventname, eventlocation, eventdate, eventdescription } = req.body;
-    const eventData = Events({
-      Eventname: eventname,
-      Eventdate: eventdate,
-      Eventlocation: eventlocation,
-      Eventdescription: eventdescription,
-    });
-    await eventData.save();
-    res.status(200).json(eventData);
-  } catch (e) {
-    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
