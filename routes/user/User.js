@@ -6,7 +6,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const ReportProblem = require("../../schema/user/ReportProblemSchema");
-const ContactUs = require("../../schema/user/ContactUsSchema");
 
 //* Route 1  - User Registration
 router.post("/register", async (req, res) => {
@@ -160,33 +159,6 @@ router.post("/report", async (req, res) => {
 
     await ReportData.save();
     res.status(200).json({ success: true });
-  } catch (e) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-
-//* Route 4  - Contact Us
-router.post("/contact", async (req, res) => {
-  try {
-    const data = req.body;
-    const email = data.email;
-
-    const SenderData = {
-      firstname: data.firstName,
-      lastname: data.lastName,
-      email: email,
-      message: data.message,
-    };
-    //saving the data to mongodb
-    const existingContact = await ContactUs.findOne({ email });
-    if (existingContact) {
-      await ContactUs.replaceOne({ email: email }, SenderData);
-    } else {
-      const newContact = ContactUs(SenderData);
-      await newContact.save();
-    }
-
-    res.status(201).json({ message: "Thank you for getting in touch!" });
   } catch (e) {
     res.status(500).json({ message: "Internal Server Error" });
   }
