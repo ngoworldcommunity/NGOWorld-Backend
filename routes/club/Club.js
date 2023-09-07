@@ -7,15 +7,27 @@ const bcrypt = require("bcryptjs");
 const Events = require("../../schema/club/EventSchema");
 var jwt = require("jsonwebtoken");
 
+router.get("/", async (req, res) => {
+  try {
+    if (req.query.slug) {
+      const clubdetails = await Club.findOne({ slug: req.query.slug });
+      console.log(clubdetails);
+      return res.status(200).json(clubdetails);
+    }
+    const allClubs = await Club.find({});
+    res.json(allClubs);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 //* Route 1  - Club Registration
 
 router.post("/register", async (req, res) => {
   try {
     const data = req.body;
 
-    const { email } = req.body;
-    const existingUser = await Club.findOne({ email: email });
-
+    const existingUser = await Club.findOne({ email: data.email });
     if (existingUser) {
       return res.status(409).json({ message: "Account already exists" });
     }
@@ -26,15 +38,20 @@ router.post("/register", async (req, res) => {
       name: data.name,
       email: data.email,
       password: hashpassword,
-      address: data.address,
-      pincode: data.pincode,
-      description: data.description,
       tagLine: data.tagLine,
+      description: data.description,
+      city: data.city,
+      state: data.state,
+      address: data.address,
+      country: data.country,
+      pincode: data.pincode,
+      slug: data.name.toLowerCase().split(" ").join("-"),
     });
 
     await ClubData.save();
-    res.status(201).json({ message: "Registration successful, please login" });
+    res.status(201).json({ message: "Signup successful, please Login" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -90,4 +107,5 @@ router.post("/createevent", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 module.exports = router;

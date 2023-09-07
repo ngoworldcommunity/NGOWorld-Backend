@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    res.status(201).json({ message: "Signed you up, please login." });
+    res.status(201).json({ message: "Signup successful, please Login" });
   } catch (e) {
     res.status(500).json({ message: "Internal Server Error" });
   }
