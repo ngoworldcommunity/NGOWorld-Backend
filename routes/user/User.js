@@ -27,8 +27,8 @@ router.post("/register", async (req, res) => {
     });
     await newUser.save();
     res.status(201).json({ message: "Signup successful, please Login" });
-  } catch (e) {
-    res.status(500).json({ message: "Internal Server Error" });
+  } catch (err) {
+    res.status(500).json({ message: err });
   }
 });
 
@@ -102,28 +102,16 @@ router.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         secure: true,
       })
-      .json({ token, isuser: true, message: "Logged you in !" });
-  } catch (err) {
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-
-router.post("/generate-token", async (req, res) => {
-  try {
-    const payload = { User: { id: req.body.email } };
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
-    res
-      .status(201)
-      .cookie("Token", token, {
-        sameSite: "strict",
-        httpOnly: true,
-        path: "/",
+      .cookie("isLoggedIn", true, {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        httpOnly: false,
         secure: true,
+        sameSite: "none",
+        domain: process.env.ORIGIN_DOMAIN,
       })
-      .json({ token, isuser: true, message: "Logged you in !" });
+      .json({ token, message: "Logged you in !" });
   } catch (err) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: err });
   }
 });
 

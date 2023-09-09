@@ -14,20 +14,15 @@ passport.use(
       try {
         let user = await User.findOne({
           email: profile.emails[0].value,
-        }).exec();
+        });
 
         if (user) {
           return done(null, user);
         } else {
-          let firstname = profile.displayName.split(" ")[0];
-          let lastname = profile.displayName.split(" ")[1];
-
-          if (!lastname) lastname = " ";
-
           user = await User.create({
-            firstname: firstname,
-            lastname: lastname,
+            name: profile.displayName,
             email: profile.emails[0].value,
+            slug: profile.emails[0].value.split("@")[0],
             password: crypto.randomBytes(20).toString("hex"),
           });
 
