@@ -1,5 +1,3 @@
-//* All routes related to user's LOGIN AND REGISTER
-
 const express = require("express");
 const User = require("../../schema/user/UserSchema");
 const router = express.Router();

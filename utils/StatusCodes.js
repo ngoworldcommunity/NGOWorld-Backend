@@ -41,4 +41,4 @@ const StatusMessages = {
   NOT_FOUND: "Not found !",
 };
 
-export { StatusCodes, StatusMessages };
+module.exports = { StatusCodes, StatusMessages };

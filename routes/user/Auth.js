@@ -62,7 +62,7 @@ router.get("/login/success", (req, res) => {
     }
 
     res
-      .status(StatusCodes.CREATED)
+      .status(StatusCodes.OK)
       .cookie("OAuthLoginInitiated", false, {
         expires: new Date(0),
         httpOnly: false,
@@ -117,7 +117,7 @@ router.get("/logout", (req, res) => {
         domain: process.env.ORIGIN_DOMAIN,
         secure: true,
       })
-      .status(StatusCodes.CREATED)
+      .status(StatusCodes.OK)
       .json({ message: StatusMessages.LOGOUT_SUCCESS });
   });
 });
