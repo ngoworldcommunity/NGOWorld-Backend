@@ -6,6 +6,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const ReportProblem = require("../../schema/user/ReportProblemSchema");
+const { StatusCodes, StatusMessages } = require("../../utils/StatusCodes");
 
 //* Route 1  - User Registration
 router.post("/register", async (req, res) => {
@@ -15,8 +16,8 @@ router.post("/register", async (req, res) => {
 
     if (existingUser) {
       return res
-        .status(409)
-        .json({ message: "User already exists, please login." });
+        .status(StatusCodes.CONFLICT)
+        .json({ message: StatusMessages.USER_ALREADY_EXISTS });
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -26,9 +27,11 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    res.status(201).json({ message: "Signup successful, please Login" });
+    res
+      .status(StatusCodes.CREATED)
+      .json({ message: StatusMessages.SIGNUP_SUCCESS });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err });
   }
 });
 
@@ -74,7 +77,9 @@ router.post("/update", async (req, res) => {
     res.status(201).json({ message: "Password Updated Successfully" });
   } catch (error) {
     // User Password Updated
-    res.status(500).json({ message: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Internal Server Error" });
   }
 });
 
@@ -111,7 +116,7 @@ router.post("/login", async (req, res) => {
       })
       .json({ token, message: "Logged you in !" });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err });
   }
 });
 
@@ -148,7 +153,9 @@ router.post("/report", async (req, res) => {
     await ReportData.save();
     res.status(200).json({ success: true });
   } catch (e) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Internal Server Error" });
   }
 });
 

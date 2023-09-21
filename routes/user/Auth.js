@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 var jwt = require("jsonwebtoken");
 const passport = require("passport");
+const { StatusCodes, StatusMessages } = require("../../utils/StatusCodes");
 
 //* Route 5  - google authentication
 router.get("/google", (req, res) => {
@@ -16,7 +17,7 @@ router.get("/google", (req, res) => {
 
   const redirectURL = `${googleAuthURL}?${params}`;
 
-  return res.status(201).json({ url: redirectURL });
+  return res.status(StatusCodes.CREATED).json({ url: redirectURL });
 });
 
 //* Route 6  - google authentication callback
@@ -41,8 +42,8 @@ router.get(
 //* Route 7  - google authentication failed
 router.get("/login/failed", (req, res) => {
   res
-    .status(401)
-    .json({ error: true, message: "User failed to authenticate." });
+    .status(StatusCodes.UNAUTHORIZED)
+    .json({ error: true, message: StatusMessages.UNAUTHORIZED });
 });
 
 //* Route 8  - google authentication success
@@ -61,7 +62,7 @@ router.get("/login/success", (req, res) => {
     }
 
     res
-      .status(201)
+      .status(StatusCodes.CREATED)
       .cookie("OAuthLoginInitiated", false, {
         expires: new Date(0),
         httpOnly: false,
@@ -90,10 +91,12 @@ router.get("/login/success", (req, res) => {
         domain: process.env.ORIGIN_DOMAIN,
       })
       .json({
-        message: "Logged you in !",
+        message: StatusMessages.LOGIN_SUCCESS,
       });
   } else {
-    res.status(403).json({ error: true, message: "Not Authorized" });
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ error: true, message: StatusMessages.UNAUTHORIZED });
   }
 });
 
@@ -101,7 +104,9 @@ router.get("/login/success", (req, res) => {
 router.get("/logout", (req, res) => {
   req.logout(function (err) {
     if (err) {
-      return res.status(500).json({ message: "Error while logging out." });
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: StatusMessages.INTERNAL_SERVER_ERROR });
     }
 
     res
@@ -112,8 +117,8 @@ router.get("/logout", (req, res) => {
         domain: process.env.ORIGIN_DOMAIN,
         secure: true,
       })
-      .status(201)
-      .json({ message: "Logged you out !" });
+      .status(StatusCodes.CREATED)
+      .json({ message: StatusMessages.LOGOUT_SUCCESS });
   });
 });
 

@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
   title: Milan API
-  description: Feel free to raise an issue or PR [here](https://github.com/tamalCodes/Milan/issues/new/choose).
+  description: Feel free to raise an issue or PR [here](https://github.com/MilanCommunity/Milan-Backend/issues/new/choose).
   version: 1.0 
   
 
 servers:
   - url: http://localhost:5000/
     description:  Local server 
-  - url: https://test.com/
+  - url: https://api.milanhub.org/
     description:  Production server
   
 
