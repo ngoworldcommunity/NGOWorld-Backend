@@ -47,7 +47,7 @@ We at Milan work hard to maintain the structure, and use conventional Pull reque
 
 - [Forking + Cloning Guide](/docs/CloneSetup.md)
 - [Setting up the Backend (current repo)](/docs/BackendSetup.md)
-- [Setting up the Frontend](/docs/FrontendSetup.md)
+- [Setting up the Frontend](https://github.com/MilanCommunity/Milan/blob/main/docs/FrontendSetup.md)
 - [Setting up with docker](/docs/DockerSetup.md)
 
 
@@ -55,7 +55,6 @@ We at Milan work hard to maintain the structure, and use conventional Pull reque
 
 - [Proper API documentation](https://milan-server.onrender.com/docs/) for developers.
 - [Contributing Guidelines](/CONTRIBUTING.md) to be followed.
-- [Workflow Overview](/docs/Workflow.md) of our project.
 
 ## License 👮
 
