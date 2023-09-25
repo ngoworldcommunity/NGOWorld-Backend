@@ -22,7 +22,7 @@ Milan is a hub to **connect** NGOs, Charities, and the world to **collaborate** 
 
 <br>
 
-## Tech Stack(Backend) 💻
+# Tech Stack(Backend) 💻
 
 <p >
     <a href="https://nodejs.org/it/docs"><img alt="C" src="https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white"></a>
@@ -37,13 +37,13 @@ Milan is a hub to **connect** NGOs, Charities, and the world to **collaborate** 
 
 </br>
 
-## Contributing to Milan 🔐
+# Contributing to Milan 🔐
 
 Remember, Good PR makes you a Good contributor !
 
 We at Milan work hard to maintain the structure, and use conventional Pull request titles and commits. Without a proper template for the PR, not following the guidelines and spam might get the pull request closed, or banned.
 
-### 1️⃣ Setting up the project locally
+## 1. Setting up the project locally
 
 - [Forking + Cloning Guide](/docs/CloneSetup.md)
 - [Setting up the Backend (current repo)](/docs/BackendSetup.md)
@@ -51,15 +51,15 @@ We at Milan work hard to maintain the structure, and use conventional Pull reque
 - [Setting up with docker](/docs/DockerSetup.md)
 
 
-### 2️⃣ Contributing guidelines & More
+## 2. Contributing guidelines & More
 
 - [Proper API documentation](https://milan-server.onrender.com/docs/) for developers.
 - [Contributing Guidelines](/CONTRIBUTING.md) to be followed.
 
-## License 👮
+# License 👮
 
 Milan is Licensed under the <a href="./LICENSE">MIT License</a>. Please go through the License at least once before contributing.
 
-## Support 🙏
+# Support 🙏
 
 **Don't forget to drop a star ⭐.** A heartfelt thank you to those who have contributed to this project. We are really grateful for your contribution. You all are amazing. Opensource for the win 🚀
