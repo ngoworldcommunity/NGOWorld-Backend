@@ -50,8 +50,11 @@ You must create a `.env` file similar to **[.env.example](../.env.example)** fil
 - Maintain a good readable folder structure
 - Incase adding an API, do document it.
 
-## Next steps 🚀
+<br/>
+<br/>
 
-So now you have the the frontend up and running locally. Now you can start working on the issues. Now follow the below steps to setup the frontend locally (if needed).
+# Next steps 🚀
 
-1. [Setting up the frontend locally](/docs/FrontendSetup.md)
+So now you have the the frontend up and running locally. Now you can start working on the issues. You can follow the below steps to get started with the frontend.
+
+- [Setting up the frontend locally](https://github.com/MilanCommunity/Milan/blob/main/docs/FrontendSetup.md)
