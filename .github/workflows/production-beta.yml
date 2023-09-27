@@ -6,9 +6,9 @@ env:
 
 on:
   workflow_dispatch:
-    workflows: ["📢 Deploy to Production"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
   Deploy-to-Production:
@@ -25,4 +25,3 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-            

@@ -1,4 +1,4 @@
-const StatusCodes = {
+const STATUSCODE = {
   OK: 200,
   CREATED: 201,
   ACCEPTED: 202,
@@ -25,10 +25,10 @@ const StatusCodes = {
   GATEWAY_TIMEOUT: 504,
 };
 
-const StatusMessages = {
+const STATUSMESSAGE = {
   LOGIN_SUCCESS: "Logged in !",
   LOGIN_FAILED: "Login failed !",
-  LOGOUT_SUCCESS: "Logged out !",
+  LOGOUT_SUCCESS: "Logged out sucessfully !",
   LOGOUT_FAILED: "Logout failed !",
   SIGNUP_SUCCESS: "Signed up, please Login !",
   SIGNUP_FAILED: "Signup failed !",
@@ -41,4 +41,4 @@ const StatusMessages = {
   NOT_FOUND: "Not found !",
 };
 
-module.exports = { StatusCodes, StatusMessages };
+module.exports = { STATUSCODE, STATUSMESSAGE };

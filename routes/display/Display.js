@@ -1,11 +1,11 @@
-//* All routes related to club's LOGIN AND REGISTER
+// All routes related to club's LOGIN AND REGISTER
 
 const express = require("express");
 const Club = require("../../schema/club/ClubSchema");
 const User = require("../../schema/user/UserSchema");
 const router = express.Router();
 
-//* Route 1  - Show all avaialble Users in the DB
+// Route 1  - Show all avaialble Users in the DB
 router.get("/users", async (req, res) => {
   try {
     const allusers = await User.find({});

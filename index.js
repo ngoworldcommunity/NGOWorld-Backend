@@ -57,16 +57,15 @@ app.use(
   swaggerSetup,
 );
 
-//* Home route
 app.get("/", (req, res) => {
   res.send("HELLO FROM HOME");
 });
 
 app.use("/user", require("./routes/user/User"));
+app.use("/auth", require("./routes/user/Auth"));
 app.use("/clubs", require("./routes/club/Club"));
 app.use("/display", require("./routes/display/Display"));
 app.use("/payment", require("./routes/payment/Payment"));
 app.use("/product", require("./routes/shop/Products"));
-app.use("/auth", require("./routes/user/Auth"));
 
 app.listen(port, () => console.log("API IS RUNNING 🚀 at port:", port));

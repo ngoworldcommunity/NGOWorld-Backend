@@ -1,11 +1,11 @@
-//* All routes related to Product's
+// All routes related to Product's
 
 const express = require("express");
 const Products = require("../../schema/shop/ProductSchema");
 const User = require("../../schema/user/UserSchema");
 const router = express.Router();
 
-//* Route 1  -  Adding Products
+// Route 1  -  Adding Products
 
 /**
  * @description Add Product
@@ -38,7 +38,7 @@ router.post("/addproduct", async (req, res) => {
   }
 });
 
-//* Route 2  -  Fetching all Products
+// Route 2  -  Fetching all Products
 /**
  * @description Get all products
  * @route GET /products

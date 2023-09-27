@@ -1,4 +1,4 @@
-//* All routes related to club's LOGIN AND REGISTER
+// All routes related to club's LOGIN AND REGISTER
 
 const express = require("express");
 const User = require("../../schema/user/UserSchema");
