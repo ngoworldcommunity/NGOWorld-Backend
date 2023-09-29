@@ -66,6 +66,13 @@ router.post("/signin", async (req, res) => {
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,
       })
+      .cookie("usertype", existingUser.usertype, {
+        httpOnly: false,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        secure: true,
+        sameSite: "none",
+        domain: process.env.ORIGIN_DOMAIN,
+      })
       .cookie("isLoggedIn", true, {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         httpOnly: false,
@@ -248,6 +255,13 @@ router.get("/logout", (req, res) => {
         domain: process.env.ORIGIN_DOMAIN,
       })
       .cookie("username", "", {
+        httpOnly: false,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+        domain: process.env.ORIGIN_DOMAIN,
+      })
+      .cookie("usertype", "", {
         httpOnly: false,
         expires: new Date(0),
         secure: true,
