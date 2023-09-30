@@ -67,7 +67,7 @@ router.post("/report", async (req, res) => {
       ).getMinutes();
 
       if (hourOfThisReport >= currentHour - 120) {
-        return res.status(429).json({
+        return res.status(STATUSCODE.TOO_MANY_REQUESTS).json({
           success: false,
           message: "You have already reported a problem in the last 2 hours.",
         });
