@@ -44,7 +44,7 @@ router.post("/signin", async (req, res) => {
     }
     const validPassword = await bcrypt.compare(password, existingUser.password);
     if (!validPassword) {
-      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: "Invalid Credentials" });
+      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: STATUSMESSAGE.INVALID_CREDENTIALS });
     }
 
     const payload = { User: { id: existingUser.email } };
@@ -101,7 +101,7 @@ router.post("/update", async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: "Invalid Credentials" });
+      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: STATUSMESSAGE.INVALID_CREDENTIALS });
     }
     // Old Password Mathched
     if (newPassword.length < 5) {

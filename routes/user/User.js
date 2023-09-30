@@ -3,7 +3,7 @@ const User = require("../../schema/user/UserSchema");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const ReportProblem = require("../../schema/user/ReportProblemSchema");
-const { STATUSCODE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
 
 // Route 1 - Update User details
 router.post("/update", async (req, res) => {
@@ -20,7 +20,7 @@ router.post("/update", async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: "Invalid Credentials" });
+      return res.status(STATUSCODE.UNAUTHORIZED).json({ message: STATUSMESSAGE.INVALID_CREDENTIALS });
     }
     // Old Password Mathched
     if (newPassword.length < 5) {
