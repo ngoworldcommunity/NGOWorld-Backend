@@ -32,7 +32,7 @@ router.post("/addproduct", async (req, res) => {
     // Save the new product to the database
     const savedProduct = await newProduct.save();
 
-    res.status(201).json(savedProduct); // Return the saved product as a response
+    res.status(STATUSCODE.CREATED).json(savedProduct); // Return the saved product as a response
   } catch (error) {
     console.error("Error adding product:", error);
     res.status(500).json({ message: "Failed to add product" });
