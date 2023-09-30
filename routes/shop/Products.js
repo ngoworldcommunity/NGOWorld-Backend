@@ -23,7 +23,7 @@ router.post("/addproduct", async (req, res) => {
     const existingSlug = await Products.findOne({ productSlug }); //productSlug should be unique
 
     if (existingSlug) {
-      return res.status(409).json({ message: "productSlug already exists" });
+      return res.status(STATUSCODE.CONFLICT).json({ message: "productSlug already exists" });
     }
 
     // Create a new product object based on the schema
