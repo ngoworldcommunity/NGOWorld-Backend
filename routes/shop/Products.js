@@ -35,7 +35,7 @@ router.post("/addproduct", async (req, res) => {
     res.status(STATUSCODE.CREATED).json(savedProduct); // Return the saved product as a response
   } catch (error) {
     console.error("Error adding product:", error);
-    res.status(500).json({ message: "Failed to add product" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Failed to add product" });
   }
 });
 
@@ -52,7 +52,7 @@ router.get("/allproducts", async (req, res) => {
     res.status(STATUSCODE.OK).json(allProducts);
   } catch (error) {
     console.error("Error fetching products:", error);
-    res.status(500).json({ message: "Failed to fetch products" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Failed to fetch products" });
   }
 });
 
@@ -76,7 +76,7 @@ router.get("/:productSlug", async (req, res) => {
     res.status(STATUSCODE.OK).json(product);
   } catch (error) {
     console.error("Error fetching product:", error);
-    res.status(500).json({ message: "Failed to fetch product" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Failed to fetch product" });
   }
 });
 
@@ -102,7 +102,7 @@ router.post("/cart/add", async (req, res) => {
       res.status(STATUSCODE.NOT_FOUND).json({ message: "User not Found" });
     }
   } catch (err) {
-    res.status(500).json({ message: "Failed to add product to cart" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Failed to add product to cart" });
     console.log(err);
   }
 });

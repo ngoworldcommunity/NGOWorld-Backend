@@ -99,7 +99,7 @@ router.get("/", async (req, res) => {
       return res.status(STATUSCODE.OK).json(clubdetails);
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
   }
 });
 

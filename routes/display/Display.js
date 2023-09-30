@@ -12,7 +12,7 @@ router.get("/users", async (req, res) => {
     const allusers = await User.find({});
     res.status(STATUSCODE.OK).json(allusers);
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
   }
 });
 
@@ -26,7 +26,7 @@ router.get("/clubs", async (req, res) => {
     const allClubs = await Club.find({});
     res.json(allClubs);
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
   }
 });
 
