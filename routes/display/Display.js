@@ -21,7 +21,7 @@ router.get("/clubs", async (req, res) => {
   try {
     if (req.query.id) {
       const clubdetails = await Club.findById(req.query.id);
-      return res.status(200).json(clubdetails);
+      return res.status(STATUSCODE.OK).json(clubdetails);
     }
     const allClubs = await Club.find({});
     res.json(allClubs);

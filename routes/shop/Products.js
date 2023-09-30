@@ -3,6 +3,7 @@
 const express = require("express");
 const Products = require("../../schema/shop/ProductSchema");
 const User = require("../../schema/user/UserSchema");
+const { STATUSCODE } = require("../../utils/Status");
 const router = express.Router();
 
 // Route 1  -  Adding Products
@@ -48,7 +49,7 @@ router.post("/addproduct", async (req, res) => {
 router.get("/allproducts", async (req, res) => {
   try {
     const allProducts = await Products.find();
-    res.status(200).json(allProducts);
+    res.status(STATUSCODE.OK).json(allProducts);
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ message: "Failed to fetch products" });
@@ -72,7 +73,7 @@ router.get("/:productSlug", async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.status(200).json(product);
+    res.status(STATUSCODE.OK).json(product);
   } catch (error) {
     console.error("Error fetching product:", error);
     res.status(500).json({ message: "Failed to fetch product" });

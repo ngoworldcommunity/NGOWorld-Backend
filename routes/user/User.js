@@ -84,7 +84,7 @@ router.post("/report", async (req, res) => {
     });
 
     await ReportData.save();
-    res.status(200).json({ success: true });
+    res.status(STATUSCODE.OK).json({ success: true });
   } catch (e) {
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
@@ -96,7 +96,7 @@ router.get("/", async (req, res) => {
   try {
     if (req.query.slug) {
       const clubdetails = await User.findOne({ slug: req.query.slug });
-      return res.status(200).json(clubdetails);
+      return res.status(STATUSCODE.OK).json(clubdetails);
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
