@@ -11,7 +11,7 @@ router.post("/update", async (req, res) => {
     const { email, oldPassword, newPassword } = req.body;
     const existingUser = await User.findOne({ email: email });
     if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(STATUSCODE.NOT_FOUND).json({ message: "User not found" });
     }
     // User Exists in the database
     const validPassword = await bcrypt.compare(

@@ -70,7 +70,7 @@ router.get("/:productSlug", async (req, res) => {
     const product = await Products.findOne({ productSlug });
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(STATUSCODE.NOT_FOUND).json({ message: "Product not found" });
     }
 
     res.status(STATUSCODE.OK).json(product);
@@ -99,7 +99,7 @@ router.post("/cart/add", async (req, res) => {
     if (response.modifiedCount === 1) {
       return res.send("Product added successfully");
     } else {
-      res.status(404).json({ message: "User not Found" });
+      res.status(STATUSCODE.NOT_FOUND).json({ message: "User not Found" });
     }
   } catch (err) {
     res.status(500).json({ message: "Failed to add product to cart" });
