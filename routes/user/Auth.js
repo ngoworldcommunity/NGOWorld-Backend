@@ -106,7 +106,7 @@ router.post("/update", async (req, res) => {
     // Old Password Mathched
     if (newPassword.length < 5) {
       return res
-        .status(406)
+        .status(STATUSCODE.NOT_ACCEPTABLE)
         .json({ message: "Password Length must be greater than 5 characters" });
     }
     // Correct Password Length
