@@ -51,7 +51,7 @@ router.post("/signin", async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     res
-      .status(201)
+      .status(STATUSCODE.CREATED)
       .cookie("Token", token, {
         sameSite: "none",
         httpOnly: true,
@@ -125,7 +125,7 @@ router.post("/update", async (req, res) => {
     };
 
     await User.replaceOne({ email: email }, UserData);
-    res.status(201).json({ message: "Password Updated Successfully" });
+    res.status(STATUSCODE.CREATED).json({ message: "Password Updated Successfully" });
   } catch (error) {
     // User Password Updated
     res
