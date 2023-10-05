@@ -1,10 +1,11 @@
 name: 📄 Documentation issue
 description: Found an issue in the documentation? You can use this one!
-title: "[DOCS] write a small description here"
+title: "📄Docs: Write a small description here"
 labels:
   [
-   "👷🏻‍♂️ status: awaiting triage",
-    "📄 aspect: docs",
+    "🟣 status: todo",
+    "📚 docs",
+    "hacktoberfest"
   ]
 body:
   - type: textarea
@@ -56,4 +57,3 @@ body:
       value: |
         In case of emergencies contact me on [Twitter](https://twitter.com/tamalCodes)
         Feel free to check out other cool repositories [here](https://github.com/tamalCodes)
-
