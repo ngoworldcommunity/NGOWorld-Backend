@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
     return res.status(STATUSCODE.CREATED).json(savedEvent);
   } catch (error) {
     console.log(error);
-    res
+    return res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
       .json({ message: STATUSMESSAGE.CREATE_EVENT_FAILED });
   }
