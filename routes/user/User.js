@@ -95,8 +95,14 @@ router.post("/report", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     if (req.query.slug) {
-      const clubdetails = await User.findOne({ slug: req.query.slug });
-      return res.status(200).json(clubdetails);
+      const userdetails = await User.findOne({ slug: req.query.slug });
+      if (userdetails && userdetails.usertype === "individual") {
+        return res.status(200).json(userdetails);
+      } else {
+        return res
+          .status(404)
+          .json({ message: "User not found or not an individual" });
+      }
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });

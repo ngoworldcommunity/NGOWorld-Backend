@@ -143,6 +143,7 @@ router.get("/google", (req, res) => {
     redirect_uri: process.env.CALLBACK_URL,
     scope: "profile email ",
     client_id: process.env.CLIENT_ID,
+    state: req.query.usertype,
   });
 
   const redirectURL = `${googleAuthURL}?${params}`;
@@ -156,16 +157,38 @@ router.get(
   passport.authenticate("google", {
     failureRedirect: "auth/login/failed",
   }),
-  (req, res) => {
-    res
-      .cookie("OAuthLoginInitiated", true, {
-        expires: new Date(new Date().getTime() + 5 * 60 * 1000),
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .redirect(process.env.successURL);
+  async (req, res) => {
+    const usertype = req.query.state;
+    if (req.isAuthenticated()) {
+      const user = req.user;
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { email: user.email },
+          { usertype },
+          { new: true },
+        );
+        if (!updatedUser) {
+          return res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({
+            message: "Failed to update user profile",
+          });
+        }
+        res
+          .cookie("OAuthLoginInitiated", true, {
+            expires: new Date(new Date().getTime() + 5 * 60 * 1000),
+            httpOnly: false,
+            secure: true,
+            sameSite: "none",
+            domain: process.env.ORIGIN_DOMAIN,
+          })
+          .redirect(process.env.successURL);
+      } catch (err) {
+        res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
+      }
+    } else {
+      res
+        .status(STATUSCODE.UNAUTHORIZED)
+        .json({ error: true, message: STATUSMESSAGE.UNAUTHORIZED });
+    }
   },
 );
 
@@ -181,15 +204,6 @@ router.get("/login/success", (req, res) => {
   if (req.user) {
     const data = { User: { id: req.user.email } };
     const token = jwt.sign(data, process.env.JWT_SECRET);
-
-    if (!req.user.usertype) {
-      res.cookie("emptyProfile", true, {
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      });
-    }
 
     res
       .status(STATUSCODE.OK)
@@ -216,6 +230,13 @@ router.get("/login/success", (req, res) => {
       .cookie("isLoggedIn", true, {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         httpOnly: false,
+        secure: true,
+        sameSite: "none",
+        domain: process.env.ORIGIN_DOMAIN,
+      })
+      .cookie("usertype", req.user.usertype, {
+        httpOnly: false,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         secure: true,
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,

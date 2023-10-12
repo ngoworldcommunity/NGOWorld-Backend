@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
   res.send("HELLO FROM HOME");
 });
 
-app.use("/user", require("./routes/user/User"));
+app.use("/individual", require("./routes/user/User"));
 app.use("/auth", require("./routes/user/Auth"));
 app.use("/clubs", require("./routes/club/Club"));
 app.use("/display", require("./routes/display/Display"));
