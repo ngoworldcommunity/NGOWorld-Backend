@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Event = require("../../schema/events/EventSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { setTime } = require("../../utils/SetTime");
 
 router.post("/create", async (req, res) => {
   try {
@@ -14,7 +15,12 @@ router.post("/create", async (req, res) => {
         .json({ message: STATUSMESSAGE.EVENT_SLUG_ALREADY_EXISTS });
     }
 
-    const newEvent = await new Event({ ...data, slug });
+    const newEvent = await new Event({
+      ...data,
+      slug,
+      createdAt: setTime(),
+      updatedAt: setTime(),
+    });
 
     const savedEvent = await newEvent.save();
     return res.status(STATUSCODE.CREATED).json(savedEvent);
