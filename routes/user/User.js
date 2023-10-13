@@ -96,14 +96,14 @@ router.get("/", async (req, res) => {
   try {
     if (req.query.slug) {
       const userdetails = await User.findOne({ slug: req.query.slug });
-      if (userdetails && userdetails.usertype === "individual") {
-        return res.status(200).json(userdetails);
-      } else {
-        return res
-          .status(404)
-          .json({ message: "User not found or not an individual" });
-      }
+      return res.status(200).json(userdetails);
     }
+
+    const users = await User.find({
+      usertype: "individual",
+    });
+
+    res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
