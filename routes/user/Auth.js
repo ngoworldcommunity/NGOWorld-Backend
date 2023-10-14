@@ -162,14 +162,13 @@ router.get(
     if (req.isAuthenticated()) {
       const user = req.user;
       try {
-        const updatedUser = await User.findOneAndUpdate(
-          { email: user.email },
-          { usertype },
-          { new: true },
-        );
-        if (!updatedUser) {
-          return res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({
-            message: "Failed to update user profile",
+        const existingUser = await User.findOne({ email: user.email });
+
+        if (!existingUser) {
+          // This is a new account, update usertype
+          await User.create({
+            email: user.email,
+            usertype: usertype,
           });
         }
         res
