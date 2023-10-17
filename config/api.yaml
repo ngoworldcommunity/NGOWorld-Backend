@@ -1,37 +1,36 @@
 openapi: 3.0.0
 info:
   title: Milan API
-  description: Feel free to raise an issue or PR [here](https://github.com/MilanCommunity/Milan-Backend/issues/new/choose).
-  version: 1.0 
-  
+  description:
+    Feel free to raise an issue or PR
+    [here](https://github.com/MilanCommunity/Milan-Backend/issues/new/choose).
+  version: 1.0
 
 servers:
   - url: http://localhost:5000/
-    description:  Local server 
+    description: Local server
   - url: https://api.milanhub.org/
-    description:  Production server
-  
+    description: Production server
 
- 
 components:
   securitySchemes:
-    ApiTokenss:       
+    ApiTokenss:
       type: http
       scheme: bearer
-    
-    ApiKey:        
+
+    ApiKey:
       type: apiKey
-      in: header      
+      in: header
       name: apikey
-      
+
 paths:
   /display/users:
     get:
       tags:
-       - Get Data API
+        - Get Data API
       security:
-       - ApiTokenss: []
-       - ApiKey: []
+        - ApiTokenss: []
+        - ApiKey: []
       summary: Returns all the users.
       responses:
         200:
@@ -51,59 +50,56 @@ paths:
   /display/clubs:
     get:
       tags:
-       - Get Data API
+        - Get Data API
       security:
-       - ApiTokenss: []
-       - ApiKey: []
+        - ApiTokenss: []
+        - ApiKey: []
       summary: Returns all the clubs/NGOs.
-      responses: 
-        '200':
+      responses:
+        "200":
           description: OK
 
   /display/events:
     get:
       tags:
-       - Get Data API
+        - Get Data API
       security:
-       - ApiTokenss: []
-       - ApiKey: []
+        - ApiTokenss: []
+        - ApiKey: []
       summary: Returns all the events.
-      responses: 
-        '200':
+      responses:
+        "200":
           description: OK
-  
+
   /user/register:
     post:
       tags:
         - User Authentication API
-      summary: Creates a new user in the database. 
-      description: <b> Request (required) </b> <br /> <br />
-              - <b> firstname </b> <br /> 
-              - <b> lastname </b> <br /> 
-              - <b> email </b> <br /> 
-              - <b> password </b> <br /> <br /> <br />
-        <b> Request (optional) </b> <br /> <br /> 
-          - <b> address </b> <br /> 
-          - <b> pincode </b> <br /> 
-    
+      summary: Creates a new user in the database.
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> firstname </b> <br /> -
+        <b> lastname </b> <br /> - <b> email </b> <br /> - <b> password </b> <br
+        /> <br /> <br /> <b> Request (optional) </b> <br /> <br /> - <b> address
+        </b> <br /> - <b> pincode </b> <br />
+
       post:
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties: 
-                firstname:         
+              properties:
+                firstname:
                   type: string
                   example: "Tamal"
-                lastname:       
+                lastname:
                   type: string
-                  example: "Das" 
+                  example: "Das"
                 email:
                   type: string
                   example: "tamalcodes@gmail.com"
                 password:
-                  type: string 
+                  type: string
                   format: password
                   example: "HelloWorld@123$11"
                 address:
@@ -112,13 +108,13 @@ paths:
                 pincode:
                   type: string
                   example: "700001"
-         
+
       responses:
-        '201':
-          description: User has been signed up. 
-        '409':
+        "201":
+          description: User has been signed up.
+        "409":
           description: User already exists, must login.
-        '404':
+        "404":
           description: Not found.
         default:
           description: Internal Server Error.
@@ -127,32 +123,32 @@ paths:
     post:
       tags:
         - User Authentication API
-      summary: Logs in an user. 
-      description: <b> Request (required) </b> <br /> <br />
-              - <b> email </b> <br /> 
-              - <b> password </b> <br /> 
-    
+      summary: Logs in an user.
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> email </b> <br /> - <b>
+        password </b> <br />
+
       post:
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties: 
+              properties:
                 email:
                   type: string
                   example: "tamalcodes@gmail.com"
                 password:
-                  type: string 
+                  type: string
                   format: password
                   example: "HelloWorld@123$11"
-         
+
       responses:
-        '201':
-          description: User has logged in. 
-        '401':
+        "201":
+          description: User has logged in.
+        "401":
           description: Invalid Credentials.
-        '404':
+        "404":
           description: USer was not found.
         default:
           description: Internal Server Error.
@@ -160,26 +156,24 @@ paths:
   /auth/logout:
     get:
       tags:
-       - User Authentication API
+        - User Authentication API
       security:
-       - ApiTokenss: []
-       - ApiKey: []
+        - ApiTokenss: []
+        - ApiKey: []
       summary: Log out the user.
-      responses: 
-        '200':
+      responses:
+        "200":
           description: OK
-     
 
   /user/report:
     post:
       tags:
         - User Contact API
       summary: Report a problem.
-      description: <b> Request (required) </b> <br /> <br />
-              - <b> firstname </b> <br /> 
-              - <b> lastname </b> <br /> 
-              - <b> email </b> <br /> 
-              - <b> reportmessage </b> <br /> 
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> firstname </b> <br /> -
+        <b> lastname </b> <br /> - <b> email </b> <br /> - <b> reportmessage
+        </b> <br />
 
       post:
       requestBody:
@@ -202,9 +196,9 @@ paths:
                   example: "I encountered an issue with the website."
 
       responses:
-        '200':
-          description: Report has been submitted sucessfully. 
-        '429':
+        "200":
+          description: Report has been submitted sucessfully.
+        "429":
           description: Too many requests in 2 hours.
         default:
           description: Internal Server Error.
@@ -212,13 +206,12 @@ paths:
   /user/contact:
     post:
       tags:
-         - User Contact API
+        - User Contact API
       summary: Send a message through the contact form.
-      description: <b> Request (required) </b> <br /> <br />
-              - <b> firstname </b> <br /> 
-              - <b> lastname </b> <br /> 
-              - <b> email </b> <br /> 
-              - <b> message </b> <br /> 
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> firstname </b> <br /> -
+        <b> lastname </b> <br /> - <b> email </b> <br /> - <b> message </b> <br
+        />
       requestBody:
         content:
           application/json:
@@ -239,24 +232,21 @@ paths:
                   example: "Hello, I have a question."
 
       responses:
-        '201':
-          description: Message has been submitted sucessfully. 
+        "201":
+          description: Message has been submitted sucessfully.
         default:
           description: Internal Server Error.
-          
+
   /club/register:
     post:
       tags:
         - Club Authentication API
       summary: Register a new club account.
-      description: <b> Request (required) </b> <br /> <br />
-                - <b> name </b> <br /> 
-                - <b> email </b> <br /> 
-                - <b> password </b> <br /> 
-                - <b> address </b> <br /> 
-                - <b> pincode </b> <br /> 
-                - <b> description </b> <br /> 
-                - <b> tagLine </b> <br /> 
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> name </b> <br /> - <b>
+        email </b> <br /> - <b> password </b> <br /> - <b> address </b> <br /> -
+        <b> pincode </b> <br /> - <b> description </b> <br /> - <b> tagLine </b>
+        <br />
       requestBody:
         content:
           application/json:
@@ -285,9 +275,9 @@ paths:
                   type: string
                   example: "Our club, our pride"
       responses:
-        '201':
+        "201":
           description: Registration successful, please login.
-        '409':
+        "409":
           description: Account already exists.
         default:
           description: Internal Server Error.
@@ -297,9 +287,9 @@ paths:
       tags:
         - Club Authentication API
       summary: Log in to a club account.
-      description: <b> Request (required) </b> <br /> <br />
-                - <b> email </b> <br /> 
-                - <b> password </b> <br /> 
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> email </b> <br /> - <b>
+        password </b> <br />
       requestBody:
         content:
           application/json:
@@ -313,11 +303,97 @@ paths:
                   type: string
                   example: "Password@123"
       responses:
-        '201':
+        "201":
           description: Registration successful, please login.
-        '404':
+        "404":
           description: Account doesnot exists.
-        '401':
+        "401":
           description: Invalid credentials.'
         default:
           description: Internal Server Error.
+
+  /event/create:
+    post:
+      tags:
+        - Create event API
+      summary: Create a new event
+      description:
+        <b> Request (required) </b> <br /> <br /> - <b> name </b> <br /> - <b>
+        slug </b> <br /> - <b> about </b> <br /> - <b> hostClubSlug </b> <br />
+        - <b> hostClubName </b> <br /> - <b> bannerImage </b> <br /> - <b>
+        thumbnailImage </b> <br /> - <b> mode </b> <br /> - <b> address </b> <br
+        /> - <b> city </b> <br /> - <b> state </b> <br /> - <b> country </b> <br
+        /> - <b> iframe </b> <br /> - <b> data </b> <br /> - <b> time </b> <br
+        /> - <b> tags </b> <br /> - <b> isApproved </b> <br /> - <b> createdAt
+        </b> <br /> - <b> updatedAt </b> <br />
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Clean plastics"
+                slug:
+                  type: string
+                  example: "cleanplastics"
+                about:
+                  type: string
+                  example: "Plastic waste management"
+                hostClubSlug:
+                  type: string
+                  example: "exampleclub"
+                hostClubName:
+                  type: string
+                  example: "Example club"
+                bannerImage:
+                  type: string
+                  example: "https://example.image.com"
+                thumbnailImage:
+                  type: string
+                  example: "https://thumbnail.image.com"
+                mode:
+                  type: string
+                  example: "physical mode"
+                address:
+                  type: string
+                  example: "123 Main street"
+                city:
+                  type: string
+                  example: "pune"
+                state:
+                  type: string
+                  example: "Maharashtra"
+                country:
+                  type: string
+                  example: "India"
+                iframe:
+                  type: string
+                  example: "Example iframe"
+                date:
+                  type: date
+                  example: "12.09.2023"
+                time:
+                  type: string
+                  example: "10:20 AM"
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    example:
+                      - "cleaning"
+                      - "waste management"
+                createdAt:
+                  type: date
+                  example: "12.09.2023"
+                updatedAt:
+                  type: date
+                  eample: "13.09.2023"
+      responses:
+        "409":
+          description: Event slug already exists
+        "201":
+          description: Event created
+        default:
+          description: Internal Server Error
