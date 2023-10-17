@@ -39,6 +39,8 @@ const STATUSMESSAGE = {
   UNAUTHORIZED: "Unauthorized !",
   FORBIDDEN: "Forbidden !",
   NOT_FOUND: "Not found !",
+  EVENT_SLUG_ALREADY_EXISTS: "Event slug already exists",
+  CREATE_EVENT_FAILED: "Failed to create event",
 };
 
 module.exports = { STATUSCODE, STATUSMESSAGE };

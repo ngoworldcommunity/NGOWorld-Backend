@@ -95,9 +95,15 @@ router.post("/report", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     if (req.query.slug) {
-      const clubdetails = await User.findOne({ slug: req.query.slug });
-      return res.status(200).json(clubdetails);
+      const userdetails = await User.findOne({ slug: req.query.slug });
+      return res.status(200).json(userdetails);
     }
+
+    const users = await User.find({
+      usertype: "individual",
+    });
+
+    res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
