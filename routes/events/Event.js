@@ -4,6 +4,24 @@ const Event = require("../../schema/events/EventSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
 const { setTime } = require("../../utils/SetTime");
 
+router.get("/:eventSlug", async (req, res) => {
+  try {
+    const { eventSlug } = req.params;
+    const event = await Event.findOne({ slug: eventSlug });
+    if (!event) {
+      return res
+        .status(STATUSCODE.NOT_FOUND)
+        .json(STATUSMESSAGE.EVENT_NOT_FOUND);
+    }
+
+    res.status(STATUSCODE.OK).json(event);
+  } catch (err) {
+    res
+      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
+      .json(STATUSMESSAGE.INTERNAL_SERVER_ERROR);
+  }
+});
+
 router.post("/create", async (req, res) => {
   try {
     const { slug, ...data } = req.body;

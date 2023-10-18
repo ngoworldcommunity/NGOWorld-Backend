@@ -2,7 +2,8 @@
 
 const express = require("express");
 const User = require("../../schema/user/UserSchema");
-const { STATUSCODE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const Event = require("../../schema/events/EventSchema");
 const router = express.Router();
 
 // Route 1  - Show all avaialble Users in the DB
@@ -22,6 +23,18 @@ router.get("/clubs", async (req, res) => {
     res.json(allClubs);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// * Route 3 - Show all available Events in the DB
+router.get("/events", async (req, res) => {
+  try {
+    const allEvents = await Event.find();
+    res.status(STATUSCODE.OK).json(allEvents);
+  } catch (err) {
+    res
+      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
+      .json(STATUSMESSAGE.INTERNAL_SERVER_ERROR);
   }
 });
 
