@@ -61,14 +61,6 @@ router.post("/signin", async (req, res) => {
       })
       .cookie("username", existingUser.slug, {
         httpOnly: false,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("usertype", existingUser.usertype, {
-        httpOnly: false,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         secure: true,
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,
@@ -80,7 +72,17 @@ router.post("/signin", async (req, res) => {
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,
       })
-      .json({ token, message: "Logged you in !" });
+      .cookie("usertype", existingUser.usertype, {
+        httpOnly: false,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        secure: true,
+        sameSite: "none",
+        domain: process.env.ORIGIN_DOMAIN,
+      })
+
+      .json({
+        message: "Logged you in !",
+      });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
   }
@@ -233,7 +235,7 @@ router.get("/login/success", (req, res) => {
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,
       })
-      .cookie("usertype", req.user.usertype, {
+      .cookie("usertype", "user", {
         httpOnly: false,
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         secure: true,
@@ -250,55 +252,41 @@ router.get("/login/success", (req, res) => {
   }
 });
 
-// Route 8  - User Logout
-router.post("/logout", (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      return res
-        .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-        .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
-    }
+router.get("/logout", (req, res) => {
+  res
+    .status(STATUSCODE.OK)
+    .cookie("Token", false, {
+      expires: new Date(0),
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      domain: process.env.ORIGIN_DOMAIN,
+    })
+    .cookie("username", false, {
+      expires: new Date(0),
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      domain: process.env.ORIGIN_DOMAIN,
+    })
+    .cookie("isLoggedIn", false, {
+      expires: new Date(0),
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      domain: process.env.ORIGIN_DOMAIN,
+    })
+    .cookie("usertype", false, {
+      expires: new Date(0),
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      domain: process.env.ORIGIN_DOMAIN,
+    })
 
-    res
-      .status(STATUSCODE.OK)
-      .cookie("Token", "", {
-        sameSite: "none",
-        httpOnly: true,
-        expires: new Date(0),
-        secure: true,
-      })
-      .cookie("isLoggedIn", "", {
-        expires: new Date(0),
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("username", "", {
-        httpOnly: false,
-        expires: new Date(0),
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("usertype", "", {
-        httpOnly: false,
-        expires: new Date(0),
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("emptyProfile", "", {
-        expires: new Date(0),
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .json({
-        message: STATUSMESSAGE.LOGOUT_SUCCESS,
-      });
-  });
+    .json({
+      message: STATUSMESSAGE.LOGOUT_SUCCESS,
+    });
 });
 
 module.exports = router;
