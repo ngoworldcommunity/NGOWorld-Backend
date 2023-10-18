@@ -251,7 +251,7 @@ router.get("/login/success", (req, res) => {
 });
 
 // Route 8  - User Logout
-router.get("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
   req.logout(function (err) {
     if (err) {
       return res
