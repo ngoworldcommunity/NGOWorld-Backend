@@ -398,23 +398,24 @@ paths:
         default:
           description: Internal Server Error
 
-  /event/{eventSlug}:
+  /event:
     get:
       tags:
        - Get Data API
       security : 
        - ApiTokens: []
        - ApiKey: []
-      summary: GET Event by slug
-      parameter:
-       - in: path
-         name: eventSlug
-         required: true
+      summary: Returns event details or all events
+      parameters:
+       - in: query
+         name: slug
+         required: false
          schema:
           type: string
+         description : Optional. If provided, fetches a specific event by its slug.
       responses:
         '200':
-          description: OK.
+          description: Success response with event details or all events.
         '404':
           description: Event Not Found.
         default:
