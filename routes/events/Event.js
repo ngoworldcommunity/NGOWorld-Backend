@@ -4,18 +4,21 @@ const Event = require("../../schema/events/EventSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
 const { setTime } = require("../../utils/SetTime");
 
-router.get("/:eventSlug", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const { eventSlug } = req.params;
-    const event = await Event.findOne({ slug: eventSlug });
-    if (!event) {
-      return res
-        .status(STATUSCODE.NOT_FOUND)
-        .json(STATUSMESSAGE.EVENT_NOT_FOUND);
+    if (req.query.slug) {
+      const eventDetails = await Event.findOne({ slug: req.query.slug });
+
+      if (eventDetails) {
+        return res.status(STATUSCODE.OK).json(eventDetails);
+      }
+      return res.status(STATUSCODE.NOT_FOUND).json(STATUSMESSAGE.NOT_FOUND);
     }
 
-    res.status(STATUSCODE.OK).json(event);
-  } catch (err) {
+    const allEvents = await Event.find({});
+    res.status(STATUSCODE.OK).json(allEvents);
+  } catch (error) {
+    console.log(error);
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
       .json(STATUSMESSAGE.INTERNAL_SERVER_ERROR);
