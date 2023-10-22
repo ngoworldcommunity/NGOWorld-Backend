@@ -12,16 +12,17 @@ router.get("/", async (req, res) => {
       if (eventDetails) {
         return res.status(STATUSCODE.OK).json(eventDetails);
       }
-      return res.status(STATUSCODE.NOT_FOUND).json(STATUSMESSAGE.NOT_FOUND);
+      return res
+        .status(STATUSCODE.NOT_FOUND)
+        .json({ message: STATUSMESSAGE.NOT_FOUND });
     }
 
     const allEvents = await Event.find({});
     res.status(STATUSCODE.OK).json(allEvents);
   } catch (error) {
-    console.log(error);
-    res
+    return res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json(STATUSMESSAGE.INTERNAL_SERVER_ERROR);
+      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
   }
 });
 
