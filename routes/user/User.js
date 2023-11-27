@@ -35,8 +35,8 @@ router.post("/update", async (req, res) => {
 
     // Updated User
     const UserData = {
-      firstName: existingUser.firstname,
-      lastName: existingUser.lastname,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
       email: email,
       password: newHashedPassword,
       address: existingUser.address,
