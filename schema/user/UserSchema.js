@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema({
-  firstname: {
+  usertype: { type: String },
+  slug: {
     type: String,
     required: true,
   },
-  lastname: {
-    type: String,
-    required: true,
-  },
+  name: { type: String },
+  firstname: { type: String },
+  lastname: { type: String },
   email: {
     type: String,
     required: true,
@@ -18,26 +18,13 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: false,
-  },
-  country: {
-    type: String,
-    required: true,
-  },
-  pincode: {
-    type: String,
-    required: false,
-  },
+  tagLine: { type: String },
+  description: { type: String },
+  city: { type: String },
+  state: { type: String },
+  address: { type: String },
+  country: { type: String },
+  pincode: { type: String },
   cart: [{ id: { type: String } }],
 });
 

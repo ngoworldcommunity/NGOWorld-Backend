@@ -1,10 +1,11 @@
 name: 📄 Documentation issue
 description: Found an issue in the documentation? You can use this one!
-title: "[DOCS] write a small description here"
+title: "📄Docs: Write a small description here"
 labels:
   [
-   "👷🏻‍♂️ status: awaiting triage",
-    "📄 aspect: docs",
+    "🟣 status: todo",
+    "📚 docs",
+    "hacktoberfest"
   ]
 body:
   - type: textarea
@@ -42,10 +43,10 @@ body:
     attributes:
       label: "Checklist ✅"
       options:
-        - label: "I checked and didn't find similar [issue](https://github.com/MilanCommunity/Milan/issues)"
+        - label: "I checked and didn't find similar [issue](https://github.com/MilanCommunity/Milan-Backend/issues)"
           required: true
 
-        - label: "I have read the [Contributing Guidelines](https://github.com/MilanCommunity/Milan/blob/main/CONTRIBUTING.md)"
+        - label: "I have read the [Contributing Guidelines](https://github.com/MilanCommunity/Milan-Backend/blob/main/CONTRIBUTING.md)"
           required: true
 
         - label: "I am willing to work on this issue (blank for no)"
@@ -56,4 +57,3 @@ body:
       value: |
         In case of emergencies contact me on [Twitter](https://twitter.com/tamalCodes)
         Feel free to check out other cool repositories [here](https://github.com/tamalCodes)
-

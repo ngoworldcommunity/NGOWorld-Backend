@@ -57,27 +57,16 @@ app.use(
   swaggerSetup,
 );
 
-//* Home route
 app.get("/", (req, res) => {
   res.send("HELLO FROM HOME");
 });
 
-//* user routes
 app.use("/user", require("./routes/user/User"));
-
-//* club routes
-app.use("/clubs", require("./routes/club/Club"));
-
-//* Display routes
-app.use("/display", require("./routes/display/Display"));
-
-//* Payment routes
-app.use("/payment", require("./routes/payment/Payment"));
-
-//* Product routes
-app.use("/product", require("./routes/shop/Products"));
-
-//* Google Auth routes
 app.use("/auth", require("./routes/user/Auth"));
+app.use("/clubs", require("./routes/club/Club"));
+app.use("/display", require("./routes/display/Display"));
+app.use("/payment", require("./routes/payment/Payment"));
+app.use("/product", require("./routes/shop/Products"));
+app.use("/event", require("./routes/events/Event"));
 
 app.listen(port, () => console.log("API IS RUNNING 🚀 at port:", port));

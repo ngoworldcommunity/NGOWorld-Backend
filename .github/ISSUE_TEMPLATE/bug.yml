@@ -1,10 +1,11 @@
 name: 🐞 Bug
 description: Report an issue to help improve the project.
-title: "[BUG] Write a small description here"
+title: "🐞Bug: Write a small description here"
 labels:
   [
-    "👷🏻‍♂️ status: awaiting triage",
-    "🐞 Bug"
+    "🟣 status: todo",
+    "🐞 bug",
+    "hacktoberfest"
   ]
 body:
   - type: textarea
@@ -43,10 +44,10 @@ body:
     attributes:
       label: "Checklist ✅"
       options:
-        - label: "I checked and didn't find similar [issue](https://github.com/MilanCommunity/Milan/issues)"
+        - label: "I checked and didn't find similar [issue](https://github.com/MilanCommunity/Milan-Backend/issues)"
           required: true
 
-        - label: "I have read the [Contributing Guidelines](https://github.com/MilanCommunity/Milan/blob/main/CONTRIBUTING.md)"
+        - label: "I have read the [Contributing Guidelines](https://github.com/MilanCommunity/Milan-Backend/blob/main/CONTRIBUTING.md)"
           required: true
 
         - label: "I am willing to work on this issue (blank for no)."

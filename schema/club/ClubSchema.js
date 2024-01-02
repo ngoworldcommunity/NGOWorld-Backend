@@ -45,6 +45,12 @@ const ClubsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  website: {
+    type: String,
+  },
+  iframe: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Clubs", ClubsSchema);
