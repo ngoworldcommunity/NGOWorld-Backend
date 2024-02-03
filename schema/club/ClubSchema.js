@@ -46,10 +46,10 @@ const ClubsSchema = mongoose.Schema({
     required: true,
   },
   website: {
-    type: String, 
+    type: String,
   },
   iframe: {
-    type: String, 
+    type: String,
   },
 });
 
