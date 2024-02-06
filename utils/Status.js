@@ -30,7 +30,7 @@ const STATUSMESSAGE = {
   LOGIN_FAILED: "Login failed !",
   LOGOUT_SUCCESS: "Logged out sucessfully !",
   LOGOUT_FAILED: "Logout failed !",
-  SIGNUP_SUCCESS: "Signed up, please Login !",
+  SIGNUP_SUCCESS: "Signed up !",
   SIGNUP_FAILED: "Signup failed !",
   USER_NOT_FOUND: "User not found !",
   USER_ALREADY_EXISTS: "User already exists, please Login !",
@@ -39,8 +39,14 @@ const STATUSMESSAGE = {
   UNAUTHORIZED: "Unauthorized !",
   FORBIDDEN: "Forbidden !",
   NOT_FOUND: "Not found !",
-  EVENT_SLUG_ALREADY_EXISTS: "Event slug already exists",
+  EVENT_NOT_FOUND: "Event not found !",
   CREATE_EVENT_FAILED: "Failed to create event",
+  PRODUCT_SLUG_ALREADY_EXISTS: "productSlug already exists",
+  PRODUCT_ADD_FAILED: "Failed to add product",
+  PRODUCT_FETCH_FAILED: "Failed to fetch products",
+  PRODUCT_NOT_FOUND: "Product not found",
+  PASSWORD_UPDATE_SUCCESS: "Password Updated Successfully",
+  TOO_MANY_REQUESTS: "You have already reported a problem in the last 2 hours.",
 };
 
 module.exports = { STATUSCODE, STATUSMESSAGE };
