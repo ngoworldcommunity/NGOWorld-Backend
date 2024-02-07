@@ -41,7 +41,7 @@ const ClubsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  slug: {
+  username: {
     type: String,
     required: true,
   },

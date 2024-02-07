@@ -4,7 +4,23 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../../schema/user/UserSchema");
 const bcrypt = require("bcryptjs");
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
+
+const defaultCookie = {
+  sameSite: "none",
+  httpOnly: true,
+  expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  secure: true,
+  domain: process.env.ORIGIN_DOMAIN,
+};
+
+const frontendCookie = {
+  httpOnly: false,
+  secure: true,
+  sameSite: "none",
+  expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  domain: process.env.ORIGIN_DOMAIN,
+};
 
 // Route 1  - User Signup
 router.post("/signup", async (req, res) => {
@@ -19,15 +35,28 @@ router.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
+    const username = email.split("@")[0];
+
     const newUser = new User({
       ...data,
+      username,
       email,
       password: hashedPassword,
     });
     await newUser.save();
+
+    const payload = { User: { id: email } };
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
+
     res
       .status(STATUSCODE.CREATED)
-      .json({ message: STATUSMESSAGE.SIGNUP_SUCCESS });
+      .cookie("Token", token, defaultCookie)
+      .cookie("username", username, frontendCookie)
+      .cookie("isLoggedIn", true, frontendCookie)
+      .cookie("usertype", data?.usertype, frontendCookie)
+      .json({
+        message: STATUSMESSAGE.SIGNUP_SUCCESS,
+      });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
   }
@@ -41,9 +70,10 @@ router.post("/signin", async (req, res) => {
 
     if (!existingUser) {
       return res
-        .status(STATUSCODE.NOT_FOUND)
-        .json({ message: STATUSMESSAGE.USER_NOT_FOUND });
+        .status(STATUSCODE.UNAUTHORIZED)
+        .json({ message: STATUSMESSAGE.INVALID_CREDENTIALS });
     }
+
     const validPassword = await bcrypt.compare(password, existingUser.password);
     if (!validPassword) {
       return res
@@ -56,34 +86,10 @@ router.post("/signin", async (req, res) => {
 
     res
       .status(STATUSCODE.CREATED)
-      .cookie("Token", token, {
-        sameSite: "none",
-        httpOnly: true,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        secure: true,
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("username", existingUser.slug, {
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("isLoggedIn", true, {
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("usertype", existingUser.usertype, {
-        httpOnly: false,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-
+      .cookie("Token", token, defaultCookie)
+      .cookie("username", existingUser.username, frontendCookie)
+      .cookie("isLoggedIn", true, frontendCookie)
+      .cookie("usertype", existingUser.usertype, frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
       });
@@ -225,33 +231,10 @@ router.get("/login/success", (req, res) => {
         sameSite: "none",
         domain: process.env.ORIGIN_DOMAIN,
       })
-      .cookie("Token", token, {
-        sameSite: "none",
-        httpOnly: true,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        secure: true,
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("username", req.user.slug, {
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("isLoggedIn", true, {
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
-      .cookie("usertype", "user", {
-        httpOnly: false,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        secure: true,
-        sameSite: "none",
-        domain: process.env.ORIGIN_DOMAIN,
-      })
+      .cookie("Token", token, defaultCookie)
+      .cookie("username", req.user.username, frontendCookie)
+      .cookie("isLoggedIn", true, frontendCookie)
+      .cookie("usertype", "user", frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
       });

@@ -4,7 +4,7 @@ const express = require("express");
 const Products = require("../../schema/shop/ProductSchema");
 const User = require("../../schema/user/UserSchema");
 const router = express.Router();
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 
 // Route 1  -  Adding Products
 

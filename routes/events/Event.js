@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Event = require("../../schema/events/EventSchema");
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 const { setTime } = require("../../utils/SetTime");
 
 router.get("/", async (req, res) => {

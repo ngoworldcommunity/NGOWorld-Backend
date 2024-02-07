@@ -30,7 +30,7 @@ const STATUSMESSAGE = {
   LOGIN_FAILED: "Login failed !",
   LOGOUT_SUCCESS: "Logged out sucessfully !",
   LOGOUT_FAILED: "Logout failed !",
-  SIGNUP_SUCCESS: "Signed up, please Login !",
+  SIGNUP_SUCCESS: "Signed up !",
   SIGNUP_FAILED: "Signup failed !",
   USER_NOT_FOUND: "User not found !",
   USER_ALREADY_EXISTS: "User already exists, please Login !",

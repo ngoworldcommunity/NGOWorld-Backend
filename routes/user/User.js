@@ -3,7 +3,34 @@ const User = require("../../schema/user/UserSchema");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const ReportProblem = require("../../schema/user/ReportProblemSchema");
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
+
+router.get("/", async (req, res) => {
+  try {
+    const { username } = req.query;
+
+    if (username) {
+      const userdetails = await User.findOne({ username });
+
+      if (!userdetails)
+        return res
+          .status(STATUSCODE.NOT_FOUND)
+          .json({ message: STATUSMESSAGE.NOT_FOUND });
+
+      return res.status(STATUSCODE.OK).json(userdetails);
+    }
+
+    const users = await User.find({
+      usertype: "individual",
+    });
+
+    res.json(users);
+  } catch (error) {
+    res
+      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
+      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
+  }
+});
 
 // Route 1 - Update User details
 router.post("/update", async (req, res) => {
@@ -92,25 +119,6 @@ router.post("/report", async (req, res) => {
     await ReportData.save();
     res.status(STATUSCODE.OK).json({ success: true });
   } catch (e) {
-    res
-      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
-  }
-});
-
-router.get("/", async (req, res) => {
-  try {
-    if (req.query.slug) {
-      const userdetails = await User.findOne({ slug: req.query.slug });
-      return res.status(STATUSCODE.OK).json(userdetails);
-    }
-
-    const users = await User.find({
-      usertype: "individual",
-    });
-
-    res.json(users);
-  } catch (error) {
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
       .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
