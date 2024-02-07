@@ -2,7 +2,7 @@
 
 const express = require("express");
 const User = require("../../schema/user/UserSchema");
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 const router = express.Router();
 
 // Route 1  - Show all avaialble Users in the DB

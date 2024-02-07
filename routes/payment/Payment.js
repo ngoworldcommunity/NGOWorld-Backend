@@ -3,7 +3,7 @@ const router = express.Router();
 
 const shortid = require("shortid");
 const Razorpay = require("razorpay");
-const { STATUSCODE, STATUSMESSAGE } = require("../../utils/Status");
+const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
