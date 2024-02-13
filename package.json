@@ -43,6 +43,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.2.1",
     "prettier": "^3.0.1",
+    "sass": "^1.70.0",
     "semantic-release": "^21.0.0"
   },
   "lint-staged": {

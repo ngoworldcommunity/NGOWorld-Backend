@@ -1,9 +1,9 @@
 const express = require("express");
 const User = require("../../schema/user/UserSchema");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 const ReportProblem = require("../../schema/user/ReportProblemSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
+const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   try {
@@ -35,54 +35,40 @@ router.get("/", async (req, res) => {
 // Route 1 - Update User details
 router.post("/update", async (req, res) => {
   try {
-    const { email, oldPassword, newPassword } = req.body;
-    const existingUser = await User.findOne({ email: email });
-    if (!existingUser) {
+    const { Token } = req.cookies;
+    const { tagLine, description, city, state, address, country, pincode } =
+      req.body;
+    const email = jwt.verify(Token, process.env.JWT_SECRET).User.id;
+
+    const user = await User.findOneAndUpdate(
+      { email },
+      {
+        $set: {
+          tagLine,
+          description,
+          city,
+          state,
+          address,
+          country,
+          pincode,
+        },
+      },
+      { new: true },
+    );
+
+    if (!user) {
       return res
         .status(STATUSCODE.NOT_FOUND)
         .json({ message: STATUSMESSAGE.USER_NOT_FOUND });
     }
-    // User Exists in the database
-    const validPassword = await bcrypt.compare(
-      oldPassword,
-      existingUser.password,
-    );
 
-    if (!validPassword) {
-      return res
-        .status(STATUSCODE.UNAUTHORIZED)
-        .json({ message: STATUSMESSAGE.INVALID_CREDENTIALS });
-    }
-    // Old Password Mathched
-    if (newPassword.length < 5) {
-      return res
-        .status(406)
-        .json({ message: "Password Length must be greater than 5 characters" });
-    }
-    // Correct Password Length
-
-    const newHashedPassword = await bcrypt.hash(newPassword, 10);
-    // New Password Hashed
-
-    // Updated User
-    const UserData = {
-      firstname: existingUser.firstname,
-      lastname: existingUser.lastname,
-      email: email,
-      password: newHashedPassword,
-      address: existingUser.address,
-      pincode: existingUser.pincode,
-    };
-
-    await User.replaceOne({ email: email }, UserData);
-    res
-      .status(STATUSCODE.CREATED)
-      .json({ message: STATUSMESSAGE.PASSWORD_UPDATE_SUCCESS });
+    return res
+      .status(STATUSCODE.OK)
+      .json({ message: STATUSMESSAGE.PROFILE_UPDATE_SUCCESS });
   } catch (error) {
-    // User Password Updated
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
+      .json({ message: "Internal server error" });
   }
 });
 

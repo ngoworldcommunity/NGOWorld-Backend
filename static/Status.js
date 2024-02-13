@@ -46,6 +46,7 @@ const STATUSMESSAGE = {
   PRODUCT_FETCH_FAILED: "Failed to fetch products",
   PRODUCT_NOT_FOUND: "Product not found",
   PASSWORD_UPDATE_SUCCESS: "Password Updated Successfully",
+  PROFILE_UPDATE_SUCCESS: "Profile Updated Successfully",
   TOO_MANY_REQUESTS: "You have already reported a problem in the last 2 hours.",
 };
 

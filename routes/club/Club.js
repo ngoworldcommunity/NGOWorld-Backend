@@ -28,16 +28,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/change", async (req, res) => {
-  try {
-    await User.updateMany({}, { $rename: { username: "slug" } });
-
-    res.json({ message: "done" });
-  } catch (error) {
-    res
-      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
-  }
-});
-
 module.exports = router;

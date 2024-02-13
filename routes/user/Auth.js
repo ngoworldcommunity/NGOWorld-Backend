@@ -145,10 +145,7 @@ router.post("/update", async (req, res) => {
       .status(STATUSCODE.CREATED)
       .json({ message: STATUSMESSAGE.PASSWORD_UPDATE_SUCCESS });
   } catch (error) {
-    // User Password Updated
-    res
-      .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
+    res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: error });
   }
 });
 
