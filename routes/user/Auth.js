@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
@@ -43,10 +44,13 @@ router.post("/signup", async (req, res) => {
       email,
       password: hashedPassword,
     });
+
     await newUser.save();
 
     const payload = { User: { id: email } };
     const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const { password, _id, ...userWithoutSensitiveInfo } = newUser.toObject();
+    const user = { ...userWithoutSensitiveInfo };
 
     res
       .status(STATUSCODE.CREATED)
@@ -56,6 +60,7 @@ router.post("/signup", async (req, res) => {
       .cookie("usertype", data?.usertype, frontendCookie)
       .json({
         message: STATUSMESSAGE.SIGNUP_SUCCESS,
+        user,
       });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
@@ -67,6 +72,13 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
+    let user;
+
+    if (existingUser) {
+      const { password, _id, __v, ...userWithoutSensitiveInfo } =
+        existingUser.toObject();
+      user = { ...userWithoutSensitiveInfo };
+    }
 
     if (!existingUser) {
       return res
@@ -92,6 +104,7 @@ router.post("/signin", async (req, res) => {
       .cookie("usertype", existingUser.usertype, frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
+        user,
       });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
