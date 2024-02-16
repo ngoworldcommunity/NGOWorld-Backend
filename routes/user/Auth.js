@@ -232,6 +232,10 @@ router.get("/login/success", (req, res) => {
     const data = { User: { id: req.user.email } };
     const token = jwt.sign(data, process.env.JWT_SECRET);
 
+    const { password, _id, __v, ...userWithoutSensitiveInfo } =
+      req.user.toObject();
+    const user = { ...userWithoutSensitiveInfo };
+
     res
       .status(STATUSCODE.OK)
       .cookie("OAuthLoginInitiated", false, {
@@ -247,6 +251,7 @@ router.get("/login/success", (req, res) => {
       .cookie("usertype", "user", frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
+        user,
       });
   } else {
     res
