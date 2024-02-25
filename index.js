@@ -6,7 +6,6 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 require("./config/passport-googleAuth-strategy");
-const { swaggerServe, swaggerSetup } = require("./config/swagger");
 
 const path = require("path");
 
@@ -48,14 +47,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/api-docs", swaggerServe, swaggerSetup);
-
-app.use(
-  "/docs",
-  express.static("node_modules/swagger-ui-dist/", { index: false }),
-  swaggerServe,
-  swaggerSetup,
-);
 
 app.get("/", (req, res) => {
   res.send("HELLO FROM HOME");
@@ -67,6 +58,6 @@ app.use("/clubs", require("./routes/club/Club"));
 app.use("/display", require("./routes/display/Display"));
 app.use("/payment", require("./routes/payment/Payment"));
 app.use("/product", require("./routes/shop/Products"));
-app.use("/event", require("./routes/events/Event"));
+app.use("/events", require("./routes/events/Event"));
 
 app.listen(port, () => console.log("API IS RUNNING 🚀 at port:", port));

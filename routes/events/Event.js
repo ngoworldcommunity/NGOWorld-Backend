@@ -28,29 +28,65 @@ router.get("/", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   try {
-    const { slug, ...data } = req.body;
-    const existingEvent = await Event.findOne({ slug });
+    const { uid, ...data } = req.body;
 
+    // Validate required fields:
+    if (
+      !data.name ||
+      !uid ||
+      !data.about ||
+      !data.hostUsername ||
+      !data.hostName ||
+      !data.thumbnailImage ||
+      !data.mode ||
+      !data.date ||
+      !data.startTime ||
+      !data.endTime ||
+      !data.timezone
+    ) {
+      console.log(data);
+      return res
+        .status(STATUSCODE.BAD_REQUEST)
+        .json({ message: "Missing Required Fields" });
+    }
+
+    // Ensure unique slug:
+    const existingEvent = await Event.findOne({ uid });
     if (existingEvent) {
       return res
         .status(STATUSCODE.CONFLICT)
-        .json({ message: STATUSMESSAGE.EVENT_SLUG_ALREADY_EXISTS });
+        .json({ message: "Already exists" });
     }
 
-    const newEvent = await new Event({
+    // Combine sanitized data with timestamp fields:
+    const newEvent = new Event({
       ...data,
-      slug,
+      uid,
       createdAt: setTime(),
       updatedAt: setTime(),
     });
 
+    // Validate data before saving:
+    const validationErrors = newEvent.validateSync();
+    if (validationErrors) {
+      const errors = Object.values(validationErrors.errors).map(
+        (error) => error.message,
+      );
+      return res
+        .status(STATUSCODE.BAD_REQUEST)
+        .json({ message: "Event Validation failed", errors });
+    }
+
+    // Save the event:
     const savedEvent = await newEvent.save();
-    return res.status(STATUSCODE.CREATED).json(savedEvent);
+
+    // Respond with the created event:
+    res.status(STATUSCODE.CREATED).json(savedEvent);
   } catch (error) {
-    console.log(error);
-    return res
+    console.error(error);
+    res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.CREATE_EVENT_FAILED });
+      .json({ message: "Create Event Failed" });
   }
 });
 

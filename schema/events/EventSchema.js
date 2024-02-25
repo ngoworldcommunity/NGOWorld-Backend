@@ -1,63 +1,85 @@
 const mongoose = require("mongoose");
 
-const EventSchema = mongoose.Schema({
+const EventSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
-  slug: {
+  uid: {
     type: String,
     required: true,
+    unique: true,
   },
   about: {
     type: String,
     required: true,
+    trim: true,
   },
-  hostClubSlug: {
+
+  hostUsername: {
     type: String,
     required: true,
   },
-  hostClubName: {
+  hostName: {
     type: String,
     required: true,
+    trim: true,
   },
   bannerImage: {
     type: String,
+    trim: true,
   },
   thumbnailImage: {
     type: String,
     required: true,
+    trim: true,
   },
+
   mode: {
     type: String,
     required: true,
+    enum: ["online", "offline"],
   },
   address: {
     type: String,
+    trim: true,
   },
   city: {
     type: String,
+    trim: true,
   },
   state: {
     type: String,
+    trim: true,
   },
   country: {
     type: String,
+    trim: true,
   },
   iframe: {
     type: String,
+    trim: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
-  time: {
+  startTime: {
+    type: Date,
+    required: true,
+  },
+  endTime: {
+    type: Date,
+    required: true,
+  },
+  timezone: {
     type: String,
     required: true,
   },
   tags: {
     type: [String],
-    required: true,
+    default: [],
   },
   isApproved: {
     type: Boolean,
@@ -65,12 +87,17 @@ const EventSchema = mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
 });
+
+// Indexes for efficient querying:
+EventSchema.index({ uid: 1 }, { unique: true }); // Ensure unique `uid`
+EventSchema.index({ host: 1 }); // Optimize queries based on `host`
+EventSchema.index({ isApproved: 1 }); // Optimize queries based on `isApproved`
 
 module.exports = mongoose.model("Event", EventSchema);
