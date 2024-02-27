@@ -11,12 +11,11 @@ const EventSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  about: {
+  description: {
     type: String,
     required: true,
     trim: true,
   },
-
   hostUsername: {
     type: String,
     required: true,
@@ -26,20 +25,19 @@ const EventSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  bannerImage: {
+  coverImage: {
     type: String,
     trim: true,
   },
-  thumbnailImage: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-
+  // thumbnailImage: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
   mode: {
     type: String,
     required: true,
-    enum: ["online", "offline"],
+    enum: ["Online", "Offline"],
   },
   address: {
     type: String,
@@ -57,14 +55,14 @@ const EventSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  iframe: {
+  mapIframe: {
     type: String,
     trim: true,
   },
-  date: {
-    type: Date,
-    required: true,
-  },
+  // date: {
+  //   type: Date,
+  //   required: true,
+  // },
   startTime: {
     type: Date,
     required: true,
@@ -73,26 +71,35 @@ const EventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  timezone: {
-    type: String,
+  startDate: {
+    type: Date,
     required: true,
   },
-  tags: {
-    type: [String],
-    default: [],
-  },
-  isApproved: {
-    type: Boolean,
-    default: false,
-  },
-  createdAt: {
+  endDate: {
     type: Date,
-    default: Date.now,
+    required: true,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+
+  // timezone: {
+  //   type: String,
+  //   required: true,
+  // },
+  // tags: {
+  //   type: [String],
+  //   default: [],
+  // },
+  // isApproved: {
+  //   type: Boolean,
+  //   default: false,
+  // },
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+  // updatedAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
 });
 
 // Indexes for efficient querying:

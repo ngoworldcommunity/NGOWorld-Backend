@@ -3,6 +3,8 @@ const router = express.Router();
 const Event = require("../../schema/events/EventSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 const { setTime } = require("../../utils/SetTime");
+const jwt = require("jsonwebtoken");
+const User = require("../../schema/user/UserSchema");
 
 router.get("/", async (req, res) => {
   try {
@@ -30,19 +32,21 @@ router.post("/create", async (req, res) => {
   try {
     const { uid, ...data } = req.body;
 
-    // Validate required fields:
     if (
       !data.name ||
       !uid ||
-      !data.about ||
-      !data.hostUsername ||
-      !data.hostName ||
-      !data.thumbnailImage ||
+      !data.description ||
+      !data.coverImage ||
       !data.mode ||
-      !data.date ||
+      !data.startDate ||
+      !data.endDate ||
       !data.startTime ||
       !data.endTime ||
-      !data.timezone
+      !data.city ||
+      !data.state ||
+      !data.country ||
+      !data.address ||
+      !data.mapIframe
     ) {
       console.log(data);
       return res
@@ -58,15 +62,20 @@ router.post("/create", async (req, res) => {
         .json({ message: "Already exists" });
     }
 
-    // Combine sanitized data with timestamp fields:
+    const { Token } = req.cookies;
+    const user = await User.findOne({
+      email: jwt.verify(Token, process.env.JWT_SECRET).User.id,
+    });
+
     const newEvent = new Event({
       ...data,
       uid,
+      hostName: user.name,
+      hostUsername: user.username,
       createdAt: setTime(),
       updatedAt: setTime(),
     });
 
-    // Validate data before saving:
     const validationErrors = newEvent.validateSync();
     if (validationErrors) {
       const errors = Object.values(validationErrors.errors).map(
@@ -77,11 +86,11 @@ router.post("/create", async (req, res) => {
         .json({ message: "Event Validation failed", errors });
     }
 
-    // Save the event:
     const savedEvent = await newEvent.save();
 
-    // Respond with the created event:
-    res.status(STATUSCODE.CREATED).json(savedEvent);
+    res
+      .status(STATUSCODE.CREATED)
+      .json({ message: "Event Created", savedEvent });
   } catch (error) {
     console.error(error);
     res
