@@ -59,7 +59,7 @@ router.post("/create", async (req, res) => {
     if (existingEvent) {
       return res
         .status(STATUSCODE.CONFLICT)
-        .json({ message: "Already exists" });
+        .json({ message: STATUSMESSAGE.EVENT_UID_ALREADY_EXISTS });
     }
 
     const { Token } = req.cookies;
