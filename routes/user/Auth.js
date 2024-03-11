@@ -36,11 +36,11 @@ router.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const username = email.split("@")[0];
+    const userName = email.split("@")[0];
 
     const newUser = new User({
       ...data,
-      username,
+      userName,
       email,
       password: hashedPassword,
     });
@@ -55,9 +55,9 @@ router.post("/signup", async (req, res) => {
     res
       .status(STATUSCODE.CREATED)
       .cookie("Token", token, defaultCookie)
-      .cookie("username", username, frontendCookie)
+      .cookie("userName", userName, frontendCookie)
       .cookie("isLoggedIn", true, frontendCookie)
-      .cookie("usertype", data?.usertype, frontendCookie)
+      .cookie("userType", data?.userType, frontendCookie)
       .json({
         message: STATUSMESSAGE.SIGNUP_SUCCESS,
         user,
@@ -99,9 +99,9 @@ router.post("/signin", async (req, res) => {
     res
       .status(STATUSCODE.CREATED)
       .cookie("Token", token, defaultCookie)
-      .cookie("username", existingUser.username, frontendCookie)
+      .cookie("userName", existingUser.userName, frontendCookie)
       .cookie("isLoggedIn", true, frontendCookie)
-      .cookie("usertype", existingUser.usertype, frontendCookie)
+      .cookie("userType", existingUser.userType, frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
         user,
@@ -145,8 +145,8 @@ router.post("/update", async (req, res) => {
 
     // Updated User
     const UserData = {
-      firstname: existingUser.firstname,
-      lastname: existingUser.lastname,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
       email: email,
       password: newHashedPassword,
       address: existingUser.address,
@@ -171,7 +171,7 @@ router.get("/google", (req, res) => {
     redirect_uri: process.env.CALLBACK_URL,
     scope: "profile email ",
     client_id: process.env.CLIENT_ID,
-    state: req.query.usertype,
+    state: req.query.userType,
   });
 
   const redirectURL = `${googleAuthURL}?${params}`;
@@ -186,17 +186,17 @@ router.get(
     failureRedirect: "auth/login/failed",
   }),
   async (req, res) => {
-    const usertype = req.query.state;
+    const userType = req.query.state;
     if (req.isAuthenticated()) {
       const user = req.user;
       try {
         const existingUser = await User.findOne({ email: user.email });
 
         if (!existingUser) {
-          // This is a new account, update usertype
+          // This is a new account, update userType
           await User.create({
             email: user.email,
-            usertype: usertype,
+            userType: userType,
           });
         }
         res
@@ -246,9 +246,9 @@ router.get("/login/success", (req, res) => {
         domain: process.env.ORIGIN_DOMAIN,
       })
       .cookie("Token", token, defaultCookie)
-      .cookie("username", req.user.username, frontendCookie)
+      .cookie("userName", req.user.userName, frontendCookie)
       .cookie("isLoggedIn", true, frontendCookie)
-      .cookie("usertype", "user", frontendCookie)
+      .cookie("userType", "user", frontendCookie)
       .json({
         message: STATUSMESSAGE.LOGIN_SUCCESS,
         user,
@@ -270,7 +270,7 @@ router.get("/logout", (req, res) => {
       sameSite: "none",
       domain: process.env.ORIGIN_DOMAIN,
     })
-    .cookie("username", false, {
+    .cookie("userName", false, {
       expires: new Date(0),
       httpOnly: false,
       secure: true,
@@ -284,7 +284,7 @@ router.get("/logout", (req, res) => {
       sameSite: "none",
       domain: process.env.ORIGIN_DOMAIN,
     })
-    .cookie("usertype", false, {
+    .cookie("userType", false, {
       expires: new Date(0),
       httpOnly: false,
       secure: true,

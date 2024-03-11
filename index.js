@@ -8,11 +8,14 @@ const passport = require("passport");
 require("./config/passport-googleAuth-strategy");
 
 const path = require("path");
+const bodyParser = require("body-parser");
 
 let port = process.env.PORT || 5000;
 const app = express();
 dotenv.config();
 connectToMongo();
+
+app.use(bodyParser.json({ limit: "10mb" }));
 
 app.use(
   cors({

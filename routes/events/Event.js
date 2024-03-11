@@ -38,17 +38,12 @@ router.post("/create", async (req, res) => {
       !data.description ||
       !data.coverImage ||
       !data.mode ||
-      !data.startDate ||
-      !data.endDate ||
-      !data.startTime ||
-      !data.endTime ||
       !data.city ||
       !data.state ||
       !data.country ||
       !data.address ||
       !data.mapIframe
     ) {
-      console.log(data);
       return res
         .status(STATUSCODE.BAD_REQUEST)
         .json({ message: "Missing Required Fields" });
@@ -71,7 +66,7 @@ router.post("/create", async (req, res) => {
       ...data,
       uid,
       hostName: user.name,
-      hostUsername: user.username,
+      hostUsername: user.userName,
       createdAt: setTime(),
       updatedAt: setTime(),
     });

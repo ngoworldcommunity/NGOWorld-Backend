@@ -22,7 +22,7 @@ passport.use(
           user = await User.create({
             name: profile.displayName,
             email: profile.emails[0].value,
-            username: profile.emails[0].value.split("@")[0],
+            userName: profile.emails[0].value.split("@")[0],
             password: crypto.randomBytes(20).toString("hex"),
           });
 

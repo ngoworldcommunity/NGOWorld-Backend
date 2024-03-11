@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const { username } = req.query;
+    const { userName } = req.query;
 
-    if (username) {
-      const clubdetails = await User.findOne({ username });
+    if (userName) {
+      const clubdetails = await User.findOne({ userName });
       if (!clubdetails)
         return res
           .status(STATUSCODE.NOT_FOUND)
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     }
 
     const clubs = await User.find({
-      usertype: "club",
+      userType: "club",
     });
 
     res.json(clubs);

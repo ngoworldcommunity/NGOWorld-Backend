@@ -7,10 +7,10 @@ const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   try {
-    const { username } = req.query;
+    const { userName } = req.query;
 
-    if (username) {
-      const userdetails = await User.findOne({ username });
+    if (userName) {
+      const userdetails = await User.findOne({ userName });
 
       if (!userdetails)
         return res
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
     }
 
     const users = await User.find({
-      usertype: "individual",
+      userType: "individual",
     });
 
     res.json(users);
@@ -96,8 +96,8 @@ router.post("/report", async (req, res) => {
     const data = req.body;
 
     const ReportData = ReportProblem({
-      firstname: data.firstname,
-      lastname: data.lastname,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       reportmessage: data.reportmessage,
     });
