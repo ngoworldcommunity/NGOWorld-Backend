@@ -59,6 +59,14 @@ const EventSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  platform: {
+    type: String,
+    trim: true,
+  },
+  platformLink: {
+    type: String,
+    trim: true,
+  },
   // date: {
   //   type: Date,
   //   required: true,

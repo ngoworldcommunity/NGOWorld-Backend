@@ -37,12 +37,20 @@ router.post("/create", async (req, res) => {
       !uid ||
       !data.description ||
       !data.coverImage ||
-      !data.mode ||
-      !data.city ||
-      !data.state ||
-      !data.country ||
-      !data.address ||
-      !data.mapIframe
+      !data.mode
+    ) {
+      return res
+        .status(STATUSCODE.BAD_REQUEST)
+        .json({ message: "Missing Required Fields" });
+    }
+
+    if (
+      data.mode === "Offline" &&
+      (!data.city ||
+        !data.state ||
+        !data.country ||
+        !data.address ||
+        !data.mapIframe)
     ) {
       return res
         .status(STATUSCODE.BAD_REQUEST)
