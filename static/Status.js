@@ -33,6 +33,7 @@ const STATUSMESSAGE = {
   SIGNUP_SUCCESS: "Signed up !",
   SIGNUP_FAILED: "Signup failed !",
   USER_NOT_FOUND: "User not found !",
+  DASHBOARD_FETCH_FAILED: "Failed to fetch dashboard data !",
   USER_ALREADY_EXISTS: "User already exists, please Login !",
   INVALID_CREDENTIALS: "Invalid credentials !",
   INTERNAL_SERVER_ERROR: "Internal server error, try again later !",

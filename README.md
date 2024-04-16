@@ -11,13 +11,13 @@ Milan is a hub to **connect** NGOs, Charities, and the world to **collaborate** 
 <div  align="center" >
 
 <div  align="center" >
-<a href="https://api.milanhub.org/"><img alt="C" src="https://img.shields.io/badge/Production%20Release-07C160?style=for-the-badge&logo=vercel&logoColor=white"></a> <a href="https://github.com/sponsors/tamalCodes"><img alt="Sponsor Tamal" src="https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white"></a>
+<a href="https://api.ngoworld.org/"><img alt="C" src="https://img.shields.io/badge/Production%20Release-07C160?style=for-the-badge&logo=vercel&logoColor=white"></a> <a href="https://github.com/sponsors/tamalCodes"><img alt="Sponsor Tamal" src="https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white"></a>
 
-    
+
 </div>
 
 <img alt="Milan Readme Banner" src="./docs/pictures/MilanBanner.png" width="700px"/>
-    
+
 </div>
 
 <br>
@@ -32,7 +32,7 @@ Milan is a hub to **connect** NGOs, Charities, and the world to **collaborate** 
     <a href="https://opensource.guide/how-to-contribute/"><img alt="C" src="https://img.shields.io/badge/Open%20Source-%23F05032.svg?style=for-the-badge&logo=open-source-initiative&logoColor=white"></a>
     <a href="https://docs.github.com/en/actions"><img alt="C" src="https://img.shields.io/badge/GitHub%20Actions-%232671E5.svg?style=for-the-badge&logo=github-actions&logoColor=white"></a>
     <a href="https://docs.github.com/en/actions"><img alt="C" src="https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=3395FF"></a>
-    
+
 </p>
 
 </br>
