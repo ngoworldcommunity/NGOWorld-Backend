@@ -52,7 +52,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.send("HELLO FROM HOME");
+  res.send("HELLO FROM API");
 });
 
 app.use("/user", require("./routes/user/User"));

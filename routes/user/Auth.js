@@ -24,6 +24,11 @@ const frontendCookie = {
 };
 
 // Route 1  - User Signup
+// Check if the user already exists, if not create a new user
+// Make a random username for the user
+// Hash the password and store it in the database
+// Create a JWT token and send it in the cookie
+
 router.post("/signup", async (req, res) => {
   try {
     const { email, ...data } = req.body;
@@ -36,7 +41,15 @@ router.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const userName = email.split("@")[0];
+    var userName = email.split("@")[0] + Math.floor(Math.random());
+
+    while (
+      await User.findOne({
+        userName,
+      })
+    ) {
+      userName = email.split("@")[0] + Math.floor(Math.random());
+    }
 
     const newUser = new User({
       ...data,
@@ -52,16 +65,10 @@ router.post("/signup", async (req, res) => {
     const { password, _id, ...userWithoutSensitiveInfo } = newUser.toObject();
     const user = { ...userWithoutSensitiveInfo };
 
-    res
-      .status(STATUSCODE.CREATED)
-      .cookie("Token", token, defaultCookie)
-      .cookie("userName", userName, frontendCookie)
-      .cookie("isLoggedIn", true, frontendCookie)
-      .cookie("userType", data?.userType, frontendCookie)
-      .json({
-        message: STATUSMESSAGE.SIGNUP_SUCCESS,
-        user,
-      });
+    res.status(STATUSCODE.CREATED).cookie("Token", token, defaultCookie).json({
+      message: STATUSMESSAGE.SIGNUP_SUCCESS,
+      user,
+    });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
   }
@@ -96,16 +103,10 @@ router.post("/signin", async (req, res) => {
     const payload = { User: { id: existingUser.email } };
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-    res
-      .status(STATUSCODE.CREATED)
-      .cookie("Token", token, defaultCookie)
-      .cookie("userName", existingUser.userName, frontendCookie)
-      .cookie("isLoggedIn", true, frontendCookie)
-      .cookie("userType", existingUser.userType, frontendCookie)
-      .json({
-        message: STATUSMESSAGE.LOGIN_SUCCESS,
-        user,
-      });
+    res.status(STATUSCODE.OK).cookie("Token", token, frontendCookie).json({
+      message: STATUSMESSAGE.LOGIN_SUCCESS,
+      user,
+    });
   } catch (err) {
     res.status(STATUSCODE.INTERNAL_SERVER_ERROR).json({ message: err });
   }
