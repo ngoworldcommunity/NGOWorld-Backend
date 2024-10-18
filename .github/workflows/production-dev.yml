@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - dev
+      - main
 
 jobs:
   Deploy-to-Production:
