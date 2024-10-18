@@ -97,7 +97,7 @@ router.post("/signin", async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     res
-      .status(STATUSCODE.CREATED)
+      .status(STATUSCODE.OK)
       .cookie("Token", token, defaultCookie)
       .cookie("userName", existingUser.userName, frontendCookie)
       .cookie("isLoggedIn", true, frontendCookie)
