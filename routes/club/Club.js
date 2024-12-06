@@ -11,19 +11,24 @@ router.get("/", async (req, res) => {
     const { userName } = req.query;
 
     if (userName) {
-      const clubdetails = await User.findOne({ userName });
-      if (!clubdetails)
+      const clubdetails = await User.findOne({ userName }).select(
+        "-password -__v -_id",
+      );
+
+      if (!clubdetails) {
         return res
           .status(STATUSCODE.NOT_FOUND)
           .json({ message: STATUSMESSAGE.NOT_FOUND });
+      }
+
       return res.status(STATUSCODE.OK).json(clubdetails);
     }
 
-    const clubs = await User.find({
-      userType: "club",
-    });
+    const clubs = await User.find({ userType: "club" }).select(
+      "-password -__v -_id",
+    );
 
-    res.json(clubs);
+    res.status(STATUSCODE.OK).json(clubs);
   } catch (error) {
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)

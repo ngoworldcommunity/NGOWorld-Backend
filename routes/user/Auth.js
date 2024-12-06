@@ -29,6 +29,16 @@ const frontendCookie = {
 // Hash the password and store it in the database
 // Create a JWT token and send it in the cookie
 
+async function generateUniqueUsername(email) {
+  let userName = email.split("@")[0];
+
+  while (await User.findOne({ userName })) {
+    userName = email.split("@")[0] + Math.floor(Math.random() * 10000);
+  }
+
+  return userName;
+}
+
 router.post("/signup", async (req, res) => {
   try {
     const { email, ...data } = req.body;
@@ -41,15 +51,7 @@ router.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    var userName = email.split("@")[0] + Math.floor(Math.random());
-
-    while (
-      await User.findOne({
-        userName,
-      })
-    ) {
-      userName = email.split("@")[0] + Math.floor(Math.random());
-    }
+    const userName = await generateUniqueUsername(email);
 
     const newUser = new User({
       ...data,
@@ -65,7 +67,7 @@ router.post("/signup", async (req, res) => {
     const { password, _id, ...userWithoutSensitiveInfo } = newUser.toObject();
     const user = { ...userWithoutSensitiveInfo };
 
-    res.status(STATUSCODE.CREATED).cookie("Token", token, defaultCookie).json({
+    res.status(STATUSCODE.CREATED).cookie("Token", token, frontendCookie).json({
       message: STATUSMESSAGE.SIGNUP_SUCCESS,
       user,
     });

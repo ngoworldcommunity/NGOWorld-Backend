@@ -37,7 +37,6 @@ app.use(cookieParser());
 app.use(
   session({
     name: "ssid",
-
     secret: process.env.SECRET_KEY,
     saveUninitialized: false,
     resave: false,
