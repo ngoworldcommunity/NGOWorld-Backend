@@ -7,24 +7,30 @@ const UserSchema = mongoose.Schema({
     required: true,
   },
   name: { type: String },
-  firstName: { type: String },
-  lastName: { type: String },
   email: {
     type: String,
     required: true,
     unique: true,
   },
+  phone: { type: String },
+  profilePicture: { type: String },
+  bannerPicture: { type: String },
   password: {
     type: String,
     required: true,
   },
-  tagLine: { type: String },
   description: { type: String },
-  city: { type: String },
-  state: { type: String },
-  address: { type: String },
-  country: { type: String },
-  pincode: { type: String },
+  address: {
+    line1: { type: String },
+    line2: { type: String },
+    city: { type: String },
+    state: { type: String },
+    country: { type: String },
+    pincode: { type: String },
+  },
+  config: {
+    hasCompletedProfile: { type: Boolean, default: false },
+  },
   cart: [{ id: { type: String } }],
 });
 
