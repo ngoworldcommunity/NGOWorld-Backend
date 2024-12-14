@@ -86,6 +86,8 @@ router.post("/signin", async (req, res) => {
     if (existingUser) {
       const { password, _id, __v, ...userWithoutSensitiveInfo } =
         existingUser.toObject();
+
+      console.log(userWithoutSensitiveInfo);
       user = { ...userWithoutSensitiveInfo };
     }
 
