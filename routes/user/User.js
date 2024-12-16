@@ -5,35 +5,34 @@ const ReportProblem = require("../../schema/user/ReportProblemSchema");
 const { STATUSCODE, STATUSMESSAGE } = require("../../static/Status");
 const jwt = require("jsonwebtoken");
 
-router.get("/", async (req, res) => {
+// Route 1 - Get User Details
+router.get("/profile", async (req, res) => {
   try {
-    const { userName } = req.query;
+    const { Token } = req.cookies;
 
-    if (userName) {
-      const userdetails = await User.findOne({ userName });
+    // Verify the token and extract the email
+    const decoded = jwt.verify(Token, process.env.JWT_SECRET);
+    const email = decoded.User.id;
 
-      if (!userdetails)
-        return res
-          .status(STATUSCODE.NOT_FOUND)
-          .json({ message: STATUSMESSAGE.NOT_FOUND });
+    // Find the user by email
+    const user = await User.findOne({ email });
 
-      return res.status(STATUSCODE.OK).json(userdetails);
+    if (!user) {
+      return res
+        .status(STATUSCODE.NOT_FOUND)
+        .json({ message: STATUSMESSAGE.USER_NOT_FOUND });
     }
 
-    const users = await User.find({
-      userType: "individual",
-    });
-
-    res.json(users);
+    return res.status(STATUSCODE.OK).json({ user });
   } catch (error) {
     res
       .status(STATUSCODE.INTERNAL_SERVER_ERROR)
-      .json({ message: STATUSMESSAGE.INTERNAL_SERVER_ERROR });
+      .json({ message: "Internal server error" });
   }
 });
 
 // Route 1 - Update User details
-router.post("/update", async (req, res) => {
+router.patch("/completeprofile", async (req, res) => {
   try {
     const { Token } = req.cookies;
     const { tagLine, description, city, state, address, country, pincode } =
@@ -51,6 +50,9 @@ router.post("/update", async (req, res) => {
           address,
           country,
           pincode,
+          config: {
+            hasCompletedProfile: true,
+          },
         },
       },
       { new: true },
